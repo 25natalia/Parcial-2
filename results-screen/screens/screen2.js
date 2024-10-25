@@ -2,14 +2,23 @@
 export default function renderScreen2() {
 	const app = document.getElementById('app');
 	app.innerHTML = `
-    <h1>Winner Declared!</h1>
-    <p id="winnerAnnouncement"></p>
-    <div id="finalResults">
-      <h2>Leaderboard</h2>
-      <ul id="playerRankings"></ul>
-      <button id="alphabeticalSortBtn">Sort by Name</button>
-    </div>
-  `;
+		<div class="container">
+			<h1>Winner Declared!</h1>
+			<p id="winnerAnnouncement"></p>
+
+			<div id="finalResults">
+				<h2>Leaderboard</h2>
+				<ul id="playerRankings">
+
+					<!-- Aquí se insertará la lista de jugadores dinámicamente -->
+          
+				</ul>
+				<button id="alphabeticalSortBtn">Sort by Name</button>
+			</div>
+			<br>
+			<button id="restartButton">Restart Game</button>
+		</div>
+	`;
 
 	// Solicitar los datos del ganador y jugadores al servidor
 	socket.emit('fetchWinnerData');
@@ -22,6 +31,11 @@ export default function renderScreen2() {
 
 	// Escuchar reinicio del juego
 	socket.on('restartGame', handleGameReset);
+
+	// Evento de botón para reiniciar el juego
+	document.getElementById('restartButton').addEventListener('click', () => {
+		socket.emit('restartGame');
+	});
 }
 
 // Función para manejar los datos del ganador y los jugadores
@@ -37,8 +51,6 @@ function handleWinnerInfo({ winner, players }) {
 function renderLeaderboard(players) {
 	// Ordenar jugadores por puntuación de mayor a menor
 	players.sort((a, b) => b.score - a.score);
-
-	//No me funciona funciona
 
 	// Crear elementos de lista con los jugadores y sus puntuaciones
 	const leaderboardHTML = players
@@ -75,5 +87,5 @@ function handleAlphabeticalSort() {
 // Función para manejar el reinicio del juego
 function handleGameReset({ message }) {
 	console.log(message);
-	router.navigateTo('/');
+	router.navigateTo('/'); // Redirigir a la pantalla principal o reiniciar el juego
 }

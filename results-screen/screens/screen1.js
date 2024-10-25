@@ -4,10 +4,15 @@ import { router, socket } from '../routes.js';
 export default function renderScreen1() {
 	const app = document.getElementById('app');
 	app.innerHTML = `
-    <h1>Results</h1>
-    <div id="container">
-      <ul id="players"></ul>
-    </div>
+
+  <div class="container">
+    <h1>MARCO-POLO Game</h1>
+    <h2>Bienvenido al Juego</h2>
+    <p>Ingresa tus datos para unirte al juego.</p>
+    <button>Unirse al juego</button>
+  </div>
+
+
   `;
 
 	// Inicializar listeners
