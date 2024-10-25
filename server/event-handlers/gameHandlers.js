@@ -116,13 +116,14 @@ const onSelectPoloHandler = (socket, db, io) => {
 			});
 		}
 
-		// Emitir evento para actualizar las puntuaciones a todos los clientes.
-		io.emit('newScore', {
-			players: db.players.map((player) => ({
-				name: player.nickname,
-				score: player.score,
-			})),
-		});
+// Emitir evento para actualizar las puntuaciones a todos los clientes.
+io.emit('newScore', {
+  players: db.players.map((player) => ({
+      name: player.nickname,
+      score: player.score,
+  })),
+});
+
 
 		// Si algún jugador alcanza 100 puntos, se anuncia un ganador.
 		const winner = db.players.find((player) => player.score >= 100);

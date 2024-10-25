@@ -26,7 +26,8 @@ function updatePlayerList(players) {
 // Función para inicializar los listeners de socket
 function initSocketListeners() {
 	// Escuchar actualizaciones de puntuación
-	socket.on('updateScore', ({ players }) => {
+	socket.on('newScore', ({ players }) => {
+		console.log('Updated scores:', players); // Añade esto para depuración
 		updatePlayerList(players);
 	});
 
