@@ -93,10 +93,10 @@ async function restartGame() {
 
 // ------------- SOCKET LISTENERS ----------------
 
-socket.on("userJoined", (data) => {
-  usersCount.innerHTML = data?.players.length || 0
-  console.log(data)
-})
+socket.on('userJoined', (data) => {
+  usersCount.innerHTML = data?.players.length || 0;
+  console.log(data);
+});
 
 socket.on("startGame", (data) => {
   polos = []
