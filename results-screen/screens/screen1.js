@@ -26,7 +26,7 @@ export default function renderScreen1() {
 
 // Función para actualizar la lista de jugadores en el DOM
 function updatePlayerList(players) {
-	console.log(players);
+	console.log('connected players:', players);
 
 	const playersList = players
 
@@ -52,6 +52,8 @@ function initSocketListeners() {
 	// Escuchar el anuncio del ganador y redirigir a la pantalla de ganador
 	socket.on('announceWinner', ({ winner }) => {
 		console.log('Winner announced:', winner);
+    socket.emit('sendWinnerData', { winner, players });
+
 		router.navigateTo('/screen2');
 	});
 }

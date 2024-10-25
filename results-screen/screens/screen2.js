@@ -1,3 +1,5 @@
+import { router, socket } from '../routes.js';
+
 // Función principal para renderizar la pantalla de resultados
 export default function renderScreen2() {
 	const app = document.getElementById('app');
@@ -18,8 +20,24 @@ export default function renderScreen2() {
 	</div>
 	`;
 
-	// Solicitar los datos del ganador y jugadores al servidor
-	socket.emit('fetchWinnerData');
+	const usersCount = document.getElementById('playerRankings');
+
+	socket.on('userJoined', (data) => {
+		usersCount.innerHTML = data?.players.length || 0;
+		console.log(data);
+	});
+
+	// Escuchar los datos del ganador y jugadores desde el servidor
+	socket.on('announceWinner', handleWinnerInfo);
+
+	// Función para manejar los datos del ganador y los jugadores
+	function handleWinnerInfo({ winner, players }) {
+		// Mostrar mensaje del ganador
+		document.getElementById('winnerAnnouncement').textContent = `Congratulations! The winner is ${winner}.`;
+
+		// Renderizar la lista de jugadores ordenados por puntuación
+		renderLeaderboard(players);
+	}
 
 	// Escuchar los datos del ganador y jugadores desde el servidor
 	socket.on('declareWinner', handleWinnerInfo);
@@ -34,15 +52,6 @@ export default function renderScreen2() {
 	document.getElementById('restartButton').addEventListener('click', () => {
 		socket.emit('restartGame');
 	});
-}
-
-// Función para manejar los datos del ganador y los jugadores
-function handleWinnerInfo({ winner, players }) {
-	// Mostrar mensaje del ganador
-	document.getElementById('winnerAnnouncement').textContent = `Congratulations! The winner is ${winner}.`;
-
-	// Renderizar la lista de jugadores ordenados por puntuación
-	renderLeaderboard(players);
 }
 
 // Función para renderizar la lista de jugadores
