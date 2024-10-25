@@ -81,14 +81,16 @@ const onSelectPoloHandler = (socket, db, io) => {
 	return (userID) => {
 		// Obtener el jugador con el rol 'marco' (quien selecciona).
 		const marcoPlayer = db.players.find((user) => user.id === socket.id);
+
 		// Obtener el jugador seleccionado con el rol 'polo'.
 		const poloSelected = db.players.find((user) => user.id === userID);
+
 		// Obtener el jugador con el rol 'polo-especial'.
 		const poloEspecial = db.players.find((user) => user.role === 'polo-especial');
 
 		// Si el 'polo-especial' fue atrapado, 'marco' gana puntos y el 'polo-especial' pierde.
 		if (poloSelected.role === 'polo-especial') {
-			marcoPlayer.score += 50;  // 'Marco' suma puntos.
+			marcoPlayer.score += 50; // 'Marco' suma puntos.
 			poloSelected.score -= 10; // 'Polo-especial' pierde puntos.
 
 			// Notificar a todos los jugadores que el juego ha terminado y actualizar puntuaciones.
@@ -115,7 +117,7 @@ const onSelectPoloHandler = (socket, db, io) => {
 		}
 
 		// Emitir evento para actualizar las puntuaciones a todos los clientes.
-		io.emit('updateScore', {
+		io.emit('newScore', {
 			players: db.players.map((player) => ({
 				name: player.nickname,
 				score: player.score,
@@ -155,18 +157,6 @@ const restartGameHandler = (socket, db, io) => {
 			db.players.forEach((player) => {
 				player.score = 0; // Reiniciar el puntaje a 0.
 			});
-
-			// Notificar a todos los jugadores que el juego ha sido reiniciado.
-			io.emit('gameRestarted', {
-				message: 'El juego ha sido reiniciado. ¡Buena suerte a todos!',
-				players: db.players.map((player) => ({
-					name: player.nickname,
-					score: player.score,
-				})),
-			});
-
-			// Asignar roles nuevamente.
-			db.players = assignRoles(db.players);
 
 			// Notificar a cada jugador que el juego ha comenzado.
 			db.players.forEach((element) => {

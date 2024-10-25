@@ -2,22 +2,20 @@
 export default function renderScreen2() {
 	const app = document.getElementById('app');
 	app.innerHTML = `
-		<div class="container">
-			<h1>Winner Declared!</h1>
-			<p id="winnerAnnouncement"></p>
+	<div class="container">
+		<h1>Winner Declared!</h1>
+		<p id="winnerAnnouncement"></p>
 
-			<div id="finalResults">
-				<h2>Leaderboard</h2>
-				<ul id="playerRankings">
-
-					<!-- Aquí se insertará la lista de jugadores dinámicamente -->
-          
-				</ul>
-				<button id="alphabeticalSortBtn">Sort by Name</button>
-			</div>
-			<br>
-			<button id="restartButton">Restart Game</button>
+		<div id="finalResults">
+			<h2>Leaderboard</h2>
+			<ul id="playerRankings">
+				<!-- Aquí se insertará la lista de jugadores dinámicamente -->
+			</ul>
+			<button id="alphabeticalSortBtn">Sort by Name</button>
 		</div>
+		<br>
+		<button id="restartButton">Restart Game</button>
+	</div>
 	`;
 
 	// Solicitar los datos del ganador y jugadores al servidor
@@ -87,5 +85,5 @@ function handleAlphabeticalSort() {
 // Función para manejar el reinicio del juego
 function handleGameReset({ message }) {
 	console.log(message);
-	router.navigateTo('/'); // Redirigir a la pantalla principal o reiniciar el juego
+	router.navigateTo('/');
 }
